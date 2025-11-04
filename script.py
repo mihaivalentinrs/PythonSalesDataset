@@ -110,6 +110,8 @@ def main():
     for row, values in enumerate(std_vanzare_versiune, start = 1):
         worksheet.write(row, 8, values)
 
+    #de continuat scriptul cu functii in dictionarul de date grupare_modele
+
 
     workbook.close()
 if(__name__ == "__main__"):
