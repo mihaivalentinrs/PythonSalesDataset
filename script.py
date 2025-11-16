@@ -40,10 +40,9 @@ def main():
     nume_worksheet2 = 'Pagina suplimentara'
     workbook = xlsxwriter.Workbook('Rezultate - Excel.xlsx', {'nan_inf_to_errors': True})
     worksheet = workbook.add_worksheet('Grupare - Medii de vanzare')
-    worksheet.set_column(0, 0, 20)
     worksheet2 = workbook.add_worksheet('Pagina suplimentara')
     headers = [
-        'TIP AUTOVEHICUL','MARCA', 'MODEL', 'VERSIUNE', 'AN FABRICATIE', 'CAPACITATE CILINDRICA', 'PUTERE', 'MEDIE DE VANZARE',
+        'TIP AUTOVEHICUL','MARCA', 'MODEL', 'VERSIUNE', 'AN FABRICATIE', 'CAPACITATE CILINDRICA', 'PUTERE','INTERVAL_KM','MEDIE DE VANZARE',
         'COUNT'
     ]
     worksheet.write_row('A1', headers)
@@ -69,13 +68,19 @@ def main():
         return
 
     dataset_ordonat= dataset.sort_values(by="AN FABRICATIE", ascending=True)
-    grupare_tip = {tip: dataset_ordonat[dataset_ordonat['TIP AUTOVEHICUL']==tip] for tip in dataset_ordonat['TIP AUTOVEHICUL'].unique()}
+
     #grupare_marca = {marca: dataset[dataset['MARCA'] == marca] for marca in dataset['MARCA'].unique()}
     current_row = 1
     previous_marca = None
+    max_km = dataset_ordonat['KM'].max()
+    bins = np.arange(0, max_km+30001, 30000)
+    dataset_ordonat['KM'] = pd.cut(dataset_ordonat['KM'], bins = bins, right = True, include_lowest = True).astype(str)
+    grupare_tip = {tip: dataset_ordonat[dataset_ordonat['TIP AUTOVEHICUL'] == tip] for tip in
+                   dataset_ordonat['TIP AUTOVEHICUL'].unique()}
+
     for tip, df_tip in grupare_tip.items():
         rezultate_combinate = df_tip.groupby([
-        'MARCA','MODEL', 'VERSIUNE', 'AN FABRICATIE', 'CAPACITATE CILINDRICA', 'PUTERE'
+        'MARCA','MODEL', 'VERSIUNE', 'AN FABRICATIE', 'CAPACITATE CILINDRICA', 'PUTERE', 'KM'
         ])['VANZARE'].agg(['mean', 'count']).reset_index()
         worksheet.write(current_row, 0, tip)
 
@@ -89,8 +94,10 @@ def main():
                 worksheet.write(current_row, 4, row['AN FABRICATIE'])
                 worksheet.write(current_row, 5, row['CAPACITATE CILINDRICA'])
                 worksheet.write(current_row, 6, row['PUTERE'])
-                worksheet.write(current_row, 7, row['mean'])
-                worksheet.write(current_row, 8, row['count'])
+                worksheet.write(current_row, 7, row['KM'])
+                worksheet.write(current_row, 8, row['mean'])
+                worksheet.write(current_row, 9, row['count'])
+
                 worksheet2.write(current_row, 0, tip)
                 worksheet2.write(current_row, 1, row['MARCA'])
                 worksheet2.write(current_row, 2, row['MODEL'])
@@ -98,16 +105,17 @@ def main():
                 worksheet2.write(current_row, 4, row['AN FABRICATIE'])
                 worksheet2.write(current_row, 5, row['CAPACITATE CILINDRICA'])
                 worksheet2.write(current_row, 6, row['PUTERE'])
-                worksheet2.write(current_row, 7, row['mean'])
-                worksheet2.write(current_row, 8, row['count'])
+                worksheet.write(current_row, 7, row['KM'])
+                worksheet2.write(current_row, 8, row['mean'])
+                worksheet2.write(current_row, 9, row['count'])
                 current_row += 1
 
 
 
-    worksheet.set_column("A:XFD", 20)
-    worksheet.set_column("D1:D230", 25)
-    worksheet2.set_column("A:XFD", 20)
-    worksheet2.set_column("D1:D230", 25)
+    worksheet.set_column("A:XFD", 25)
+    #worksheet.set_column("D1:D230", 25)
+    worksheet2.set_column("A:XFD", 25)
+    #worksheet2.set_column("D1:D230", 25)
     workbook.close()
 
 
