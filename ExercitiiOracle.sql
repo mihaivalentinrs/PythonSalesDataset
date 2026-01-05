@@ -1,0 +1,73 @@
+--Exercitii Oracle - Capitole:
+
+--Single Row Functions
+--1.Conversion functions
+
+--1.List the last names and birthdays of Global Fast Food Employees. Convert the birth dates to
+--character data in the Month DD, YYYY format. Suppress any leading zeros.
+
+-- 2. Convert January 3, 04, to the default date format 03-Jan-2004.
+-- 3. Format a query from the Global Fast Foods f_promotional_menus table to print out the start_date
+-- of promotional code 110 as: The promotion began on the tenth of February 2004.
+-- 4. Convert today’s date to a format such as: “Today is the Twentieth of March, Two Thousand Four”
+-- 5. List the ID, name, and salary for all Global Fast Foods employees. Display salary with a $ sign
+-- and two decimal places.
+-- 6. Ellen Abel is an employee who has received a $2,000 raise. Display her first name and last name,
+-- her current salary, and her new salary. Display both salaries with a $ and two decimal places.
+-- Label her new salary column AS New Salary.
+-- 7. On what day of the week and date did Global Fast Foods’ promotional code 110 Valentine’s
+-- Special begin?
+-- 8. Create one query that will convert 25-Dec-2004 into each of the following (you will have to convert
+-- 25-Dec-2004 to a date and then to character data):
+-- December 25th, 2004
+-- DECEMBER 25TH, 2004
+-- 25th december, 2004
+-- 9. Create a query that will format the DJs on Demand d_packages columns, low-range and highrange package costs, in the format $2500.00.
+-- 10.Convert JUNE192004 to a date using the fx format model.
+-- 11.What is the distinction between implicit and explicit datatype conversion? Give an example of
+-- each.
+-- 12.Why is it important from a business perspective to have datatype conversions?
+
+--2.NULL functions
+-- 1. Create a report that shows the Global Fast Foods promotional name, start date, and end date
+-- from the f_promotional_menus table. If there is an end date, temporarily replace it with “end in two
+-- weeks.” If there is no end date, replace it with today’s date.
+-- 2. Not all Global Fast Foods staff members receive overtime pay. Instead of displaying a null value
+-- for these employees, replace null with zero. Include the employee’s last name and overtime rate in
+-- the output. Label the overtime rate as “Overtime Status”.
+-- 3. The manager of Global Fast Foods has decided to give all staff who currently do not earn
+-- overtime an overtime rate of $5.00. Construct a query that displays the last names and the
+-- overtime rate for each staff member, substituting $5.00 for each null overtime value.
+-- Copyright © 2020, Oracle and/or its affiliates. All rights reserved. Oracle and Java are registered trademarks of Oracle and/or its affiliates. Other names may be trademarks of their respective owners.
+-- 2
+-- 4. Not all Global Fast Foods staff members have a manager. Create a query that displays the
+-- employee last name and 9999 in the manager ID column for these employees.
+-- 5. Which statement(s) below will return null if the value of v_sal is 50?
+-- a. SELECT nvl(v_sal, 50) FROM emp;
+-- b. SELECT nvl2(v_sal, 50) FROM emp;
+-- c. SELECT nullif(v_sal, 50) FROM emp;
+-- d. SELECT coalesce (v_sal, Null, 50) FROM emp;
+-- 6. What does this query on the Global Fast Foods table return?
+-- SELECT COALESCE(last_name, to_char(manager_id)) as NAME
+-- FROM f_staffs;
+-- 7.
+-- a. Create a report listing the first and last names and month of hire for all employees in the
+-- EMPLOYEES table (use TO_CHAR to convert hire_date to display the month).
+-- b. Modify the report to display null if the month of hire is September. Use the NULLIF function.
+-- 8. For all null values in the specialty column in the DJs on Demand d_partners table, substitute “No
+-- Specialty.” Show the first name and s
+
+--Case/Decode
+-- 1. From the DJs on Demand d_songs table, create a query that replaces the 2-minute songs with
+-- “shortest” and the 10-minute songs with “longest”. Label the output column “Play Times”.
+-- 2. Use the Oracle database employees table and CASE expression to decode the department id.
+-- Display the department id, last name, salary, and a column called “New Salary” whose value is
+-- based on the following conditions:
+-- If the department id is 10 then 1.25 * salary
+-- If the department id is 90 then 1.5 * salary
+-- If the department id is 130 then 1.75 * salary
+-- Otherwise, display the old salary.
+-- 3. Display the first name, last name, manager ID, and commission percentage of all employees in
+-- departments 80 and 90. In a 5th column called “Review”, again display the manager ID. If they
+-- don’t have a manager, display the commission percentage. If they don’t have a commission,
+-- display 99999.
